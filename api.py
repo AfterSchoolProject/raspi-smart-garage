@@ -1,4 +1,4 @@
-from garage_door import GarageDoor
+from garage import Garage
 from flask import Flask
 app = Flask(__name__)
 
@@ -25,7 +25,7 @@ if __name__ == "__main__":
         garage = None
         channel = int(argv[1])
 
-        garage = GarageDoor(channel)
+        garage = Garage(channel)
         garage.setup()
 
         app.run()

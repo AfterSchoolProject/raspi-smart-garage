@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 from time import sleep
 
-class GarageDoor:
+class Garage:
     'The interface for the garage door'
 
     def __init__(self, channel):
