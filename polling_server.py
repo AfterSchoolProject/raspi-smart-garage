@@ -12,7 +12,7 @@ if __name__ == "__main__":
         garage.setup()
 
         while true:
-            message = poll()
+            message = poll.delay()
 
             if message == "open":
                 garage.open()
