@@ -10,7 +10,7 @@ class Garage:
 
     def setup(self):
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.channel, GPIO.OUT)
+        GPIO.setup(self.channel, GPIO.OUT, initial=GPIO.LOW)
 
     def open(self):
         if self.status != "open":

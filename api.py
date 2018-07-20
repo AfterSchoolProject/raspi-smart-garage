@@ -28,7 +28,7 @@ if __name__ == "__main__":
         garage = Garage(channel)
         garage.setup()
 
-        app.run()
+        app.run(host="0.0.0.0")
     except IndexError:
         print("Need to specify a channel")
     finally:

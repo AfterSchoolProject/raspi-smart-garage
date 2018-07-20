@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 requests = "*"
 celery = "*"
+flask = "*"
+billiard = "*"
+"rpi.gpio" = "*"
 
 [dev-packages]
 
