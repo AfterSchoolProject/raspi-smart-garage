@@ -1,36 +1,30 @@
 from garage import Garage
 from flask import Flask
+from yaml import load
+
 app = Flask(__name__)
 
 @app.route("/")
 def index():
     return "Welcome!"
 
-@app.route("/open")
-def open():
-    garage.open()
-
-    return "Open"
-
-@app.route("/close")
-def close():
-    garage.close()
-
-    return "Close"
+@app.route("/activate")
+def activate():
+    if garage.activate():
+        return('Activated', 200)
+    else:
+        return('Failed', 503)
 
 if __name__ == "__main__":
     from sys import argv
 
-    try:
-        garage = None
-        channel = int(argv[1])
+    with open("config.yml", "r") as file:
+        try:
+            configs = load(file)
+            env = configs[argv[1]]
 
-        garage = Garage(channel)
-        garage.setup()
-
-        app.run(host="0.0.0.0")
-    except IndexError:
-        print("Need to specify a channel")
-    finally:
-        if garage is not None:
-            garage.cleanup()
+            with Garage(input_pin=env['input_pin'], output_pin=env['output_pin']) as garage:
+                app.run(host="0.0.0.0")
+        
+        except IndexError:
+            print("Need to specify an environment")

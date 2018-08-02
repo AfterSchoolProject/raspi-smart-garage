@@ -8,6 +8,7 @@ requests = "*"
 celery = "*"
 flask = "*"
 "rpi.gpio" = "*"
+pyyaml = "*"
 
 [dev-packages]
 

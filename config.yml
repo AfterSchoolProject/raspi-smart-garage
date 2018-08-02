@@ -1,0 +1,3 @@
+development:
+        input_pin: 17
+        output_pin: 26

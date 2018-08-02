@@ -4,26 +4,32 @@ from time import sleep
 class Garage:
     'The interface for the garage door'
 
-    def __init__(self, channel):
-        self.channel = channel
-        self.status = "closed"
+    def __init__(self, input_pin, output_pin):
+        self.input_pin = input_pin
+        self.output_pin = output_pin
 
-    def setup(self):
+    def __enter__(self):
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.channel, GPIO.OUT, initial=GPIO.LOW)
+        GPIO.setup(self.input_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.output_pin, GPIO.OUT, initial=GPIO.LOW)
 
-    def open(self):
-        if self.status != "open":
-            self.__activate()
+        return self
 
-    def close(self):
-        if self.status != "closed":
-            self.__activate()
+    def __exit__(self, exc_type, exc_value, traceback):
+        GPIO.cleanup()
 
-    def cleanup(self):
-        GPIO.cleanup(self.channel)
+    def activate(self):
+        activated = False
+        GPIO.output(self.output_pin, GPIO.HIGH)
 
-    def __activate(self):
-        GPIO.output(self.channel, GPIO.LOW)
-        sleep(1)
-        GPIO.output(self.channel, GPIO.HIGH)
+        tries = 3
+        while tries > 0:
+            if GPIO.input(self.input_pin) == True:
+                activated = True
+                print("Garage is activated")
+                break
+            sleep(0.2)
+            tries -= 1
+        GPIO.output(self.output_pin, GPIO.LOW)
+
+        return activated
