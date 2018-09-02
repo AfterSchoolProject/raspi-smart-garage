@@ -8,14 +8,15 @@ class Garage:
         self.input_pin = input_pin
         self.output_pin = output_pin
 
-    def __enter__(self):
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.input_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(
+            self.input_pin,
+            GPIO.IN,
+            pull_up_down=GPIO.PUD_DOWN
+        )
         GPIO.setup(self.output_pin, GPIO.OUT, initial=GPIO.LOW)
 
-        return self
-
-    def __exit__(self, exc_type, exc_value, traceback):
+    def cleanup(self):
         GPIO.cleanup()
 
     def activate(self):
