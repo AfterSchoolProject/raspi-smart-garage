@@ -18,3 +18,7 @@ def activate():
         return('Activated', 200)
     else:
         return('Failed', 503)
+
+@bp.route('/', methods=['GET'])
+def welcome():
+    return 'Welcome!'
